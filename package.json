@@ -1,0 +1,26 @@
+{
+  "name": "e2e-playwright-pom-cucumber",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:cucumber": "cucumber-js features/01_login.feature features/02_cart.feature features/03_e2e_checkout.feature --format summary",
+    "test:cucumber:pretty": "cucumber-js --require ./support --require ./step-definitions ./features --format @cucumber/pretty-formatter",
+    "test:cucumber:login": "cucumber-js features/01_login.feature --format summary",
+    "test:cucumber:cart": "cucumber-js features/02_cart.feature --format summary",
+    "test:cucumber:e2e": "cucumber-js features/03_e2e_checkout.feature --format summary",
+    "test:cucumber:all-glob": "cucumber-js \"features/**/*.feature\"",
+    "test:bdd": "npm run test:cucumber"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@cucumber/cucumber": "^12.8.2",
+    "@cucumber/pretty-formatter": "^3.2.0",
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  }
+}

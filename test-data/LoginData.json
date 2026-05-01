@@ -1,0 +1,12 @@
+[
+  {
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "expected": "success"
+  },
+  {
+    "username": "standard_user",
+    "password": "Anuradha@123",
+    "expected": "fail"
+  }
+]
