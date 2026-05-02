@@ -14,7 +14,7 @@ module.exports = defineConfig({
 
   use: {
     baseURL: "https://www.saucedemo.com",
-    headless: false,
+    headless: true,
     screenshot: "only-on-failure",
     video: "retain-on-failure",
     trace: "retain-on-failure",
