@@ -1,25 +1,21 @@
-const { name } = require("../playwright.config");
-
 class InventoryPage {
   constructor(page) {
     this.page = page;
   }
 
-  async addTocart(prodcutName) {
-    const iteam = this.page
+  async addToCart(productName) {
+    const item = this.page
       .locator(".inventory_item")
-      .filter({ hasText: prodcutName });
+      .filter({ hasText: productName });
 
-    await iteam.getByRole("button", { name: "Add to cart" }).click();
+    await item.getByRole("button", { name: "Add to cart" }).click();
   }
 
-  async prodcutCount() {
-    const count = await this.page.locator(".inventory_item").count();
-    console.log("Product count:", count);
-    return count;
+  async getProductCount() {
+    return await this.page.locator(".inventory_item").count();
   }
 
-  cartBagde() {
+  cartBadge() {
     return this.page.locator(".shopping_cart_badge");
   }
 }

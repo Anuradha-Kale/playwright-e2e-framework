@@ -1,10 +1,13 @@
+const path = require("path");
+const PageCopy = require(path.join(__dirname, "../test-data/PageCopy.json"));
+
 class CheckoutStepTwo {
   constructor(page) {
     this.page = page;
   }
 
-  productNameValidate() {
-    return this.page.getByText("Sauce Labs Fleece Jacket");
+  productNameValidate(productName) {
+    return this.page.getByText(productName);
   }
 
   async finishButton() {
@@ -13,7 +16,7 @@ class CheckoutStepTwo {
 
   orderConfirmation() {
     return this.page.getByRole("heading", {
-      name: "Thank you for your order!",
+      name: PageCopy.orderConfirmationHeading,
     });
   }
 }

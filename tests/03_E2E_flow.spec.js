@@ -6,6 +6,8 @@ const { CheckoutStepOne } = require("../pages/CheckoutStepOne");
 const { CheckoutStepTwo } = require("../pages/CheckoutStepTwo");
 const LoginData = require("../test-data/LoginData.json");
 const YourDetails = require("../test-data/YourDetails.json");
+const ProductData = require("../test-data/Products.json");
+const PageCopy = require("../test-data/PageCopy.json");
 
 test.describe("E2E journey", () => {
   let loginPage;
@@ -16,17 +18,21 @@ test.describe("E2E journey", () => {
 
     const data = LoginData[0];
     await loginPage.Login(data.username, data.password);
+
+    await expect(page).toHaveURL(/inventory/);
   });
 
-  test("Order Purchase", async ({ page }) => {
+  test("should complete order successfully", async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
-    await inventoryPage.prodcutCount();
-    await inventoryPage.addTocart("Sauce Labs Fleece Jacket");
-    await expect(inventoryPage.cartBagde()).toBeVisible();
+    const count = await inventoryPage.getProductCount();
+    await expect(count).toBe(ProductData.products.length);
+    const productToOrder = ProductData.e2eOrderProduct;
+    await inventoryPage.addToCart(productToOrder);
+    await expect(inventoryPage.cartBadge()).toHaveText("1");
 
     const cartPage = new CartPage(page);
     await cartPage.open();
-    await cartPage.checkoutButton();
+    await cartPage.clickCheckout();
 
     const checkoutStepOne = new CheckoutStepOne(page);
     await checkoutStepOne.yourInformation(
@@ -37,11 +43,13 @@ test.describe("E2E journey", () => {
     await checkoutStepOne.continueButton();
 
     const checkoutStepTwo = new CheckoutStepTwo(page);
-    await expect(checkoutStepTwo.productNameValidate()).toBeVisible();
+    await expect(
+      checkoutStepTwo.productNameValidate(productToOrder),
+    ).toBeVisible();
     await checkoutStepTwo.finishButton();
     await expect(page).toHaveURL(/checkout-complete/);
-    const successText = await checkoutStepTwo.orderConfirmation();
-    const text = await successText.textContent();
-    console.log("Order confirmation: ", text);
+    await expect(checkoutStepTwo.orderConfirmation()).toHaveText(
+      PageCopy.orderConfirmationHeading,
+    );
   });
 });

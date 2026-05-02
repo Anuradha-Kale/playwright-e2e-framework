@@ -15,7 +15,7 @@ class CartPage {
     return this.page.locator(".cart_item");
   }
 
-  async checkoutButton() {
+  async clickCheckout() {
     await this.page.getByRole("button", { name: "Checkout" }).click();
   }
 }

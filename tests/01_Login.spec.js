@@ -1,6 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const { LoginPage } = require("../pages/LoginPage");
 const LoginData = require("../test-data/LoginData.json");
+const PageCopy = require("../test-data/PageCopy.json");
 
 test.describe("Login Tests", () => {
   let loginPage;
@@ -14,17 +15,16 @@ test.describe("Login Tests", () => {
     await loginPage.Login(data.username, data.password);
 
     await expect(loginPage.errorMessage()).toContainText(
-      "Epic sadface: Username and password do not match any user in this service",
+      PageCopy.invalidLoginErrorFull,
     );
-
-    const errorText = await loginPage.errorMessage().textContent();
-    console.log(errorText);
   });
 
   test("TC_02 - Success Login", async ({ page }) => {
     const data = LoginData[0];
     await loginPage.Login(data.username, data.password);
 
-    await expect(loginPage.dashBoardValidation()).toContainText("Swag Labs");
+    await expect(loginPage.dashBoardValidation()).toContainText(
+      PageCopy.inventoryAppLogoText,
+    );
   });
 });

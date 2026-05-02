@@ -3,6 +3,7 @@ const { LoginPage } = require("../pages/LoginPage");
 const { InventoryPage } = require("../pages/InventoryPage");
 const { CartPage } = require("../pages/CartPage");
 const LoginData = require("../test-data/LoginData.json");
+const ProductData = require("../test-data/Products.json");
 
 test.describe("cart Validations", () => {
   let loginPage;
@@ -12,19 +13,17 @@ test.describe("cart Validations", () => {
     await page.goto("/");
   });
 
-  test("Add & remove iteam", async ({ page }) => {
+  test("Add & remove item", async ({ page }) => {
     const data = LoginData[0];
     await loginPage.Login(data.username, data.password);
 
     const inventoryPage = new InventoryPage(page);
-    await inventoryPage.addTocart("Sauce Labs Bolt T-Shirt");
+    await inventoryPage.addToCart(ProductData.cartFlowProduct);
 
     const cartPage = new CartPage(page);
     await cartPage.open();
     await cartPage.removeItem();
     const cartRow = cartPage.validateRemoveItem();
-    const removeCount = await cartRow.count();
-    console.log("remove count is", removeCount);
     await expect(cartRow).toHaveCount(0);
   });
 });

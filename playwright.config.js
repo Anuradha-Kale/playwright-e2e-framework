@@ -7,12 +7,16 @@ module.exports = defineConfig({
   expect: {
     timeout: 100 * 1000,
   },
-  reporter: "html",
+  reporter: [
+    ["html", { outputFolder: "playwright-report", open: "on-failure" }],
+    ["list"],
+  ],
 
   use: {
     baseURL: "https://www.saucedemo.com",
     headless: false,
-    screenshot: "on",
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
     trace: "retain-on-failure",
     // Jab tak login state save karke auth.json na banao, ye line mat rakho:
     // storageState: './auth.json',
